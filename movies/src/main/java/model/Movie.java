@@ -1,6 +1,16 @@
 package model;
 
-public record Movie(int id, String title, int duration, String rating, int releaseYear) {}
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+public record Movie(
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        int id,
+        String title,
+        int duration,
+        String rating,
+        int releaseYear) {}
 
 
 //id           SERIAL PRIMARY KEY,

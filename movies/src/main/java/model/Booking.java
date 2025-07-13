@@ -1,6 +1,18 @@
 package model;
 
-public record Booking(int id, int showtimeId, int seatNumber, int userId, float price) {}
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public record Booking(
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        int id,
+        int showtimeId,
+        int seatNumber,
+        int userId,
+        float price) {}
 
 
 //id          SERIAL PRIMARY KEY,
