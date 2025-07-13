@@ -1,5 +1,6 @@
 package api;
 
+import dto.BookingDto;
 import model.Booking;
 import model.Movie;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookingApiImpl implements BookingApi {
     @Override
     @PostMapping
-    public ResponseEntity<Movie> add(Booking booking) {
+    public ResponseEntity<BookingDto> add(BookingDto booking) {
         return null;
     }
 
     @Override
     @GetMapping
-    public ResponseEntity<Movie> get(int id) {
+    public ResponseEntity<BookingDto> get(int id) {
         return null;
     }
 }

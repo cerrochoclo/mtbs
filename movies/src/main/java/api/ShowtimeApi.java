@@ -1,5 +1,6 @@
 package api;
 
+import dto.ShowtimeDto;
 import model.Showtime;
 import org.springframework.http.ResponseEntity;
 
@@ -7,13 +8,13 @@ import java.util.List;
 
 public interface ShowtimeApi {
 
-    ResponseEntity<Showtime> add(Showtime showtime);
+    ResponseEntity<ShowtimeDto> add(ShowtimeDto showtime);
 
-    ResponseEntity<Showtime> get(int showTimeId);
+    ResponseEntity<ShowtimeDto> get(int showTimeId);
 
-    ResponseEntity<Showtime> update(Showtime showtime);
+    ResponseEntity<ShowtimeDto> update(ShowtimeDto showtime);
 
-    ResponseEntity<Showtime> delete(int showtimeId);
+    ResponseEntity<ShowtimeDto> delete(int showtimeId);
 
-    ResponseEntity<List<Showtime>> fetchByMovieByTheatre(int movieId, int theatreId);
+    ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(int movieId, int theatreId);
 }

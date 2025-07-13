@@ -1,5 +1,6 @@
 package api;
 
+import dto.MovieDto;
 import model.Movie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,25 +10,25 @@ import org.springframework.web.bind.annotation.*;
 public class MoviesApiImpl implements MoviesApi {
     @Override
     @PostMapping
-    public ResponseEntity<Movie> add(Movie movie) {
+    public ResponseEntity<MovieDto> add(MovieDto movie) {
         return null;
     }
 
     @Override
     @PutMapping
-    public ResponseEntity<Movie> update(Movie movie) {
+    public ResponseEntity<MovieDto> update(MovieDto movie) {
         return null;
     }
 
     @Override
     @DeleteMapping
-    public ResponseEntity<Movie> delete(int movieId) {
+    public ResponseEntity<MovieDto> delete(int movieId) {
         return null;
     }
 
     @Override
     @GetMapping
-    public ResponseEntity<Movie> get(int movieId) {
+    public ResponseEntity<MovieDto> get(int movieId) {
         return null;
     }
 }

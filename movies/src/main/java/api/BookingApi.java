@@ -1,13 +1,15 @@
 package api;
 
+import dto.BookingDto;
+import dto.MovieDto;
 import model.Booking;
 import model.Movie;
 import org.springframework.http.ResponseEntity;
 
 public interface BookingApi {
 
-    ResponseEntity<Movie> add(Booking booking);
+    ResponseEntity<BookingDto> add(BookingDto booking);
 
-    ResponseEntity<Movie> get(int id);
+    ResponseEntity<BookingDto> get(int id);
 
 }

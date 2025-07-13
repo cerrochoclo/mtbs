@@ -1,17 +1,18 @@
 package api;
 
+import dto.MovieDto;
 import model.Movie;
 import org.springframework.http.ResponseEntity;
 
 public interface MoviesApi {
 
-    ResponseEntity<Movie> add(Movie movie);
+    ResponseEntity<MovieDto> add(MovieDto movie);
 
-    ResponseEntity<Movie> update(Movie movie);
+    ResponseEntity<MovieDto> update(MovieDto movie);
 
-    ResponseEntity<Movie> delete(int movieId);
+    ResponseEntity<MovieDto> delete(int movieId);
 
-    ResponseEntity<Movie> get(int movieId);
+    ResponseEntity<MovieDto> get(int movieId);
 
 
 

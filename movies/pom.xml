@@ -6,7 +6,7 @@
         <groupId>com.yk.att.mtbs</groupId>
         <artifactId>mtbs</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>movies</artifactId>
     <version>0.0.1-SNAPSHOT</version>
