@@ -36,6 +36,7 @@ public class BookingApiImpl implements BookingApi {
     }
 
     @Override
+    @GetMapping
     public ResponseEntity<List<BookingDto>> getAll() {
         return ResponseEntity.ok(bookingService.getAll().stream().map(bookingMapper::toDto).toList());
 

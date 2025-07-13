@@ -40,6 +40,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     }
 
     @Override
+    @GetMapping
     public ResponseEntity<List<ShowtimeDto>> getAll() {
         return ResponseEntity.ok(showtimeService.getAll().stream().map(showtimeMapper::toDto).toList());
     }

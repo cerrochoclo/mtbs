@@ -59,6 +59,7 @@ public class MoviesApiImpl implements MoviesApi {
     }
 
     @Override
+    @GetMapping
     public ResponseEntity<List<MovieDto>> getAll() {
         return ResponseEntity.ok(moviesService.getAll().stream().map(movieMapper::toDto).toList());
 
