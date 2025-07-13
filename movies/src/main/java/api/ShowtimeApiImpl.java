@@ -27,7 +27,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<ShowtimeDto> add(ShowtimeDto showtime) {
+    public ResponseEntity<ShowtimeDto> add(@RequestBody ShowtimeDto showtime) {
         return ResponseEntity.ok(
                 showtimeMapper.toDto(showtimeService
                         .add(showtimeMapper.toModel(showtime))));

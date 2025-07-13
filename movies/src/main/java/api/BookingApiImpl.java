@@ -6,10 +6,7 @@ import model.Booking;
 import model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import services.BookingService;
 
 @RestController
@@ -28,13 +25,13 @@ public class BookingApiImpl implements BookingApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<BookingDto> add(BookingDto booking) {
+    public ResponseEntity<BookingDto> add(@RequestBody BookingDto booking) {
         return ResponseEntity.ok(bookingService.add(bookingMapper.toModel(booking)));
     }
 
     @Override
-    @GetMapping
-    public ResponseEntity<BookingDto> get(int id) {
+    @GetMapping("{id}")
+    public ResponseEntity<BookingDto> get(@PathVariable int id) {
         return ResponseEntity.ok(bookingMapper.toDto(bookingService.get(id)));
     }
 }
