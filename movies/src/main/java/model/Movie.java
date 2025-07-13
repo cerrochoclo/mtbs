@@ -8,6 +8,7 @@ public record Movie(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         int id,
         String title,
+        String genre,
         int duration,
         String rating,
         int releaseYear) {}

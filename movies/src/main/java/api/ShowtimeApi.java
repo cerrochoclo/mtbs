@@ -12,9 +12,5 @@ public interface ShowtimeApi {
 
     ResponseEntity<ShowtimeDto> get(int showTimeId);
 
-    ResponseEntity<ShowtimeDto> update(ShowtimeDto showtime);
-
-    ResponseEntity<ShowtimeDto> delete(int showtimeId);
-
     ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(int movieId, int theatreId);
 }

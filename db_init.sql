@@ -5,6 +5,7 @@ CREATE TABLE movie
 (
     id           SERIAL PRIMARY KEY,
     title        VARCHAR(255),
+    genre        VARCHAR(255),
     duration     INT,
     rating       VARCHAR(5),
     release_year INT

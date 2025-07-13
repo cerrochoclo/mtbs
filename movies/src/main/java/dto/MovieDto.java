@@ -1,3 +1,3 @@
 package dto;
 
-public record MovieDto(int id, String title, int duration, String rating, int releaseYear) {}
+public record MovieDto(int id, String title, String genre, int duration, String rating, int releaseYear) {}
