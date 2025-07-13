@@ -1,9 +1,8 @@
-package services;
+package com.yk.att.mtbs.movies.services;
 
-import model.Showtime;
+import com.yk.att.mtbs.movies.model.Showtime;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ShowtimeService {
 

@@ -1,15 +1,13 @@
-package api;
+package com.yk.att.mtbs.movies.api;
 
-import dto.ShowtimeDto;
-import mappers.ShowtimeMapper;
-import model.Showtime;
+import com.yk.att.mtbs.movies.dto.ShowtimeDto;
+import com.yk.att.mtbs.movies.mappers.ShowtimeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import services.ShowtimeService;
+import com.yk.att.mtbs.movies.services.ShowtimeService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/showtime")

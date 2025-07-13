@@ -1,7 +1,6 @@
-package api;
+package com.yk.att.mtbs.movies.api;
 
-import dto.ShowtimeDto;
-import model.Showtime;
+import com.yk.att.mtbs.movies.dto.ShowtimeDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

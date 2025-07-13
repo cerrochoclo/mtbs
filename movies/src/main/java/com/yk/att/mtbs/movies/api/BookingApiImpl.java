@@ -1,13 +1,11 @@
-package api;
+package com.yk.att.mtbs.movies.api;
 
-import dto.BookingDto;
-import mappers.BookingMapper;
-import model.Booking;
-import model.Movie;
+import com.yk.att.mtbs.movies.dto.BookingDto;
+import com.yk.att.mtbs.movies.mappers.BookingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import services.BookingService;
+import com.yk.att.mtbs.movies.services.BookingService;
 
 @RestController
 @RequestMapping("/api/booking")
@@ -26,7 +24,7 @@ public class BookingApiImpl implements BookingApi {
     @Override
     @PostMapping
     public ResponseEntity<BookingDto> add(@RequestBody BookingDto booking) {
-        return ResponseEntity.ok(bookingService.add(bookingMapper.toModel(booking)));
+        return ResponseEntity.ok(bookingMapper.toDto(bookingService.add(bookingMapper.toModel(booking))));
     }
 
     @Override

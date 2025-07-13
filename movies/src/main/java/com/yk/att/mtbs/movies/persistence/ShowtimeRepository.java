@@ -1,6 +1,6 @@
-package persistence;
+package com.yk.att.mtbs.movies.persistence;
 
-import model.Showtime;
+import com.yk.att.mtbs.movies.model.Showtime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

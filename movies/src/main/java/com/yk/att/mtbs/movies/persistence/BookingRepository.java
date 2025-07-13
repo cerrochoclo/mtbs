@@ -1,6 +1,6 @@
-package persistence;
+package com.yk.att.mtbs.movies.persistence;
 
-import model.Booking;
+import com.yk.att.mtbs.movies.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

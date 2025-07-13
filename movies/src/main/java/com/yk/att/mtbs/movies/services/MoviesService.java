@@ -1,6 +1,6 @@
-package services;
+package com.yk.att.mtbs.movies.services;
 
-import model.Movie;
+import com.yk.att.mtbs.movies.model.Movie;
 
 public interface MoviesService {
 
@@ -10,7 +10,7 @@ public interface MoviesService {
 
     Movie update(Movie movie);
 
-    Movie delete(int id);
+    boolean delete(int id);
 
 
 }

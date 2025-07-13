@@ -1,9 +1,6 @@
-package api;
+package com.yk.att.mtbs.movies.api;
 
-import dto.BookingDto;
-import dto.MovieDto;
-import model.Booking;
-import model.Movie;
+import com.yk.att.mtbs.movies.dto.BookingDto;
 import org.springframework.http.ResponseEntity;
 
 public interface BookingApi {

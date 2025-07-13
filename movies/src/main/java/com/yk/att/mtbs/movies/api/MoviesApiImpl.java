@@ -1,12 +1,11 @@
-package api;
+package com.yk.att.mtbs.movies.api;
 
-import dto.MovieDto;
-import mappers.MovieMapper;
-import model.Movie;
+import com.yk.att.mtbs.movies.dto.MovieDto;
+import com.yk.att.mtbs.movies.mappers.MovieMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import services.MoviesService;
+import com.yk.att.mtbs.movies.services.MoviesService;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -41,9 +40,12 @@ public class MoviesApiImpl implements MoviesApi {
     @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<MovieDto> delete(@PathVariable int id) {
-        return ResponseEntity.ok(
-                movieMapper.toDto(moviesService
-                        .delete(id)));
+        boolean isDeleted = moviesService.delete(id);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();  // 204 No Content
+        } else {
+            return ResponseEntity.notFound().build();  // 404 Not Found
+        }
     }
 
     @Override

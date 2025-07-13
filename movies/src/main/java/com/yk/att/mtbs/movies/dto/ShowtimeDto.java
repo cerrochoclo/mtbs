@@ -1,4 +1,4 @@
-package dto;
+package com.yk.att.mtbs.movies.dto;
 
 import java.time.OffsetDateTime;
 

@@ -1,7 +1,6 @@
-package api;
+package com.yk.att.mtbs.movies.api;
 
-import dto.MovieDto;
-import model.Movie;
+import com.yk.att.mtbs.movies.dto.MovieDto;
 import org.springframework.http.ResponseEntity;
 
 public interface MoviesApi {

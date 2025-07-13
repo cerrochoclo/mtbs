@@ -38,7 +38,7 @@ CREATE TABLE role
 );
 CREATE TABLE userroles
 (
-    user_id INT REFERENCES mtsbuser (id),
+    user_id INT REFERENCES mtbsuser (id),
     role_id INT REFERENCES role (id),
     PRIMARY KEY (user_id, role_id)
 );
@@ -76,11 +76,11 @@ INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time)
 VALUES (7,2, 2, '2025-07-15 10:30:00', '2025-07-15 12:30:00');
 INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time)
 VALUES (8,2, 2, '2025-07-12 13:00:00', '2025-07-12 15:00:00');
-INSERT INTO mtsbuser(id,name, email, password)
+INSERT INTO mtbsuser(id,name, email, password)
 VALUES (1,'Moshe Cohen', 'moshe.cohen@zmail.com', '123456');
-INSERT INTO mtsbuser(id,name, email, password)
+INSERT INTO mtbsuser(id,name, email, password)
 VALUES (2,'Avi Levi', 'avi.levi@zmail.com', 'aabbccdd');
-INSERT INTO mtsbuser(id,name, email, password)
+INSERT INTO mtbsuser(id,name, email, password)
 VALUES (3,'Yigal Boss', 'yigal.boss@theatre.com', '000000');
 INSERT INTO role(id,name)
 VALUES (1,'user');
