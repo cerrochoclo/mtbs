@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.yk.att.mtbs.movies.services.BookingService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/booking")
 public class BookingApiImpl implements BookingApi {
@@ -31,5 +33,11 @@ public class BookingApiImpl implements BookingApi {
     @GetMapping("{id}")
     public ResponseEntity<BookingDto> get(@PathVariable int id) {
         return ResponseEntity.ok(bookingMapper.toDto(bookingService.get(id)));
+    }
+
+    @Override
+    public ResponseEntity<List<BookingDto>> getAll() {
+        return ResponseEntity.ok(bookingService.getAll().stream().map(bookingMapper::toDto).toList());
+
     }
 }

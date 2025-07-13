@@ -11,5 +11,7 @@ public interface ShowtimeApi {
 
     ResponseEntity<ShowtimeDto> get(int showTimeId);
 
+    ResponseEntity<List<ShowtimeDto>> getAll();
+
     ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(int movieId, int theatreId);
 }

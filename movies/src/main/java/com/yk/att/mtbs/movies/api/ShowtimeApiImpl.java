@@ -40,6 +40,11 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     }
 
     @Override
+    public ResponseEntity<List<ShowtimeDto>> getAll() {
+        return ResponseEntity.ok(showtimeService.getAll().stream().map(showtimeMapper::toDto).toList());
+    }
+
+    @Override
     @GetMapping("/fetch")
     public ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(@RequestParam int movieId, @RequestParam int theatreId) {
         return ResponseEntity.ok(showtimeService.fetchByMovieByTheatre(movieId, theatreId)

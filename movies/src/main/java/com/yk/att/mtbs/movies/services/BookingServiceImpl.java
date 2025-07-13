@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yk.att.mtbs.movies.persistence.BookingRepository;
 
+import java.util.List;
+
 @Service
 public class BookingServiceImpl implements BookingService {
 
@@ -23,5 +25,10 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking get(int id) {
         return bookingRepository.getReferenceById(id);
+    }
+
+    @Override
+    public List<Booking> getAll() {
+        return bookingRepository.findAll();
     }
 }

@@ -10,5 +10,7 @@ public interface ShowtimeService {
 
     Showtime add(Showtime showtime);
 
+    List<Showtime> getAll();
+
     List<Showtime> fetchByMovieByTheatre(int movieId, int theatreId);
 }

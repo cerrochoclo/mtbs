@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.yk.att.mtbs.movies.services.MoviesService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/movies")
 public class MoviesApiImpl implements MoviesApi {
@@ -54,5 +56,11 @@ public class MoviesApiImpl implements MoviesApi {
         return ResponseEntity.ok(
                 movieMapper.toDto(moviesService
                         .get(id)));
+    }
+
+    @Override
+    public ResponseEntity<List<MovieDto>> getAll() {
+        return ResponseEntity.ok(moviesService.getAll().stream().map(movieMapper::toDto).toList());
+
     }
 }

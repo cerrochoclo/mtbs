@@ -28,6 +28,11 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
+    public List<Showtime> getAll() {
+        return showtimeRepository.findAll();
+    }
+
+    @Override
     public List<Showtime> fetchByMovieByTheatre(int movieId, int theatreId) {
         return List.of();
     }

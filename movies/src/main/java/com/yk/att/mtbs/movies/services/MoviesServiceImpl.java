@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yk.att.mtbs.movies.persistence.MovieRepository;
 
+import java.util.List;
+
 @Service
 public class MoviesServiceImpl implements MoviesService {
 
@@ -34,5 +36,10 @@ public class MoviesServiceImpl implements MoviesService {
     public boolean delete(int id) {
         movieRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<Movie> getAll() {
+        return movieRepository.findAll();
     }
 }

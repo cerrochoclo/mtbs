@@ -3,6 +3,8 @@ package com.yk.att.mtbs.movies.api;
 import com.yk.att.mtbs.movies.dto.MovieDto;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface MoviesApi {
 
     ResponseEntity<MovieDto> add(MovieDto movie);
@@ -12,6 +14,8 @@ public interface MoviesApi {
     ResponseEntity<MovieDto> delete(int movieId);
 
     ResponseEntity<MovieDto> get(int movieId);
+
+    ResponseEntity<List<MovieDto>> getAll();
 
 
 
