@@ -1,6 +1,6 @@
 
-CREATE DATABASE mtsb;
-\c mtsb
+CREATE DATABASE mtbs;
+\c mtbs
 CREATE TABLE movie
 (
     id           SERIAL PRIMARY KEY,
@@ -23,7 +23,7 @@ CREATE TABLE showtime
     end_time   TIMESTAMP,
     UNIQUE (movie_id, theatre_id, start_time)
 );
-CREATE TABLE mtsbuser
+CREATE TABLE mtbsuser
 (
     id       SERIAL PRIMARY KEY,
     name     VARCHAR(255),
@@ -46,7 +46,7 @@ CREATE TABLE booking
     id          SERIAL PRIMARY KEY,
     showtime_id INT REFERENCES showtime (id),
     seat_number INT,
-    user_id     INT REFERENCES mtsbuser (id),
+    user_id     INT REFERENCES mtbsuser (id),
     price       NUMERIC(10, 2)
 );
 

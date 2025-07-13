@@ -1,4 +1,4 @@
-package com.yk.att.mtbs.mtbs;
+package com.yk.att.mtbs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

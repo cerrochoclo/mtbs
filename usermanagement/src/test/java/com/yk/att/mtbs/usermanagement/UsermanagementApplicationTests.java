@@ -1,10 +1,10 @@
-package com.yk.att.mtbs.mtbs;
+package com.yk.att.mtbs.usermanagement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MtbsApplicationTests {
+class UsermanagementApplicationTests {
 
     @Test
     void contextLoads() {
