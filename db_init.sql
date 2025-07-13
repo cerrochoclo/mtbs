@@ -1,6 +1,10 @@
 
 CREATE DATABASE mtbs;
 \c mtbs
+CREATE ROLE app_user WITH LOGIN PASSWORD 'password';
+ALTER ROLE app_user CREATEDB CREATEROLE;
+GRANT ALL PRIVILEGES ON DATABASE mtbs TO app_user;
+
 CREATE TABLE movie
 (
     id           SERIAL PRIMARY KEY,
@@ -50,7 +54,10 @@ CREATE TABLE booking
     user_id     INT REFERENCES mtbsuser (id),
     price       NUMERIC(10, 2)
 );
-
+ALTER TABLE movie OWNER TO app_user;
+ALTER TABLE showtime OWNER TO app_user;
+ALTER TABLE theatre OWNER TO app_user;
+ALTER TABLE booking OWNER TO app_user;
 
 
 INSERT INTO movie(id, title, duration, rating, release_year) VALUES(1,'Back to The Future 2',108,'PG-13',1989);
