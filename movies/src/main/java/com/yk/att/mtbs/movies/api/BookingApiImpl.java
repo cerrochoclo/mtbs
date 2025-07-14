@@ -32,7 +32,11 @@ public class BookingApiImpl implements BookingApi {
     @Override
     @GetMapping("{id}")
     public ResponseEntity<BookingDto> get(@PathVariable int id) {
-        return ResponseEntity.ok(bookingMapper.toDto(bookingService.get(id)));
+        var booking = bookingService.get(id);
+        if(null == booking) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(bookingMapper.toDto(booking));
     }
 
     @Override

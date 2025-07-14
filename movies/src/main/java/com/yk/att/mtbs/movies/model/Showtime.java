@@ -16,14 +16,31 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Showtime {
+public class Showtime implements MtbsEntity<Showtime> {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-        private int movieId;
-        private int theatreId;
+        private Integer id;
+        private Integer movieId;
+        private Integer theatreId;
         private OffsetDateTime startTime;
         private OffsetDateTime endTime;
+        private boolean isDeleted;
+
+        @Override
+        public Showtime copy(boolean forceIsDeleted) {
+                return new Showtime(this.id,
+                        this.movieId,
+                        this.theatreId,
+                        this.startTime,
+                        this.endTime,
+                        forceIsDeleted || this.isDeleted
+                );
+        }
+
+        @Override
+        public boolean getIsDeleted() {
+                return this.isDeleted;
+        }
 }
 
 

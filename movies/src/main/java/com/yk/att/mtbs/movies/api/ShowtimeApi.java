@@ -9,9 +9,14 @@ public interface ShowtimeApi {
 
     ResponseEntity<ShowtimeDto> add(ShowtimeDto showtime);
 
-    ResponseEntity<ShowtimeDto> get(int showTimeId);
+    ResponseEntity<ShowtimeDto> get(int id);
 
     ResponseEntity<List<ShowtimeDto>> getAll();
 
     ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(int movieId, int theatreId);
+
+    ResponseEntity<ShowtimeDto> update(ShowtimeDto showtime);
+
+    ResponseEntity<ShowtimeDto> delete(int id);
+
 }

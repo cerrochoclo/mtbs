@@ -11,15 +11,17 @@ import java.util.List;
 public class ShowtimeServiceImpl implements ShowtimeService {
 
     private final ShowtimeRepository showtimeRepository;
+    private final JpaHelper<Showtime> jpaHelper;
 
     @Autowired
-    public ShowtimeServiceImpl(ShowtimeRepository showtimeRepository) {
+    public ShowtimeServiceImpl(ShowtimeRepository showtimeRepository, JpaHelper<Showtime> jpaHelper) {
         this.showtimeRepository = showtimeRepository;
+        this.jpaHelper = jpaHelper;
     }
 
     @Override
     public Showtime get(int id) {
-        return showtimeRepository.getReferenceById(id);
+        return jpaHelper.getNonDeleted(id, showtimeRepository);
     }
 
     @Override
@@ -28,12 +30,23 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
+    public Showtime update(Showtime showtime) {
+        return jpaHelper.saveNonDeleted(showtime, showtimeRepository);
+
+    }
+
+    @Override
     public List<Showtime> getAll() {
-        return showtimeRepository.findAll();
+        return jpaHelper.findAllNonDeleted(showtimeRepository);
     }
 
     @Override
     public List<Showtime> fetchByMovieByTheatre(int movieId, int theatreId) {
         return List.of();
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return jpaHelper.softDelete(id, showtimeRepository);
     }
 }

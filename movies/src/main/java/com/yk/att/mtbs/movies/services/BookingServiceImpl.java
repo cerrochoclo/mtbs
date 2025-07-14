@@ -11,10 +11,12 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
+    private final JpaHelper<Booking> jpaHelper;
 
     @Autowired
-    public BookingServiceImpl(BookingRepository bookingRepository) {
+    public BookingServiceImpl(BookingRepository bookingRepository, JpaHelper<Booking> jpaHelper) {
         this.bookingRepository = bookingRepository;
+        this.jpaHelper = jpaHelper;
     }
 
     @Override
@@ -24,11 +26,11 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking get(int id) {
-        return bookingRepository.getReferenceById(id);
+        return jpaHelper.getNonDeleted(id, bookingRepository);
     }
 
     @Override
     public List<Booking> getAll() {
-        return bookingRepository.findAll();
+        return jpaHelper.findAllNonDeleted(bookingRepository);
     }
 }

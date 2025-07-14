@@ -34,9 +34,11 @@ public class MoviesApiImpl implements MoviesApi {
     @Override
     @PutMapping
     public ResponseEntity<MovieDto> update(@RequestBody MovieDto movie) {
-        return ResponseEntity.ok(
-                movieMapper.toDto(moviesService
-                        .update(movieMapper.toModel(movie))));
+        var updatedMovie = moviesService.update(movieMapper.toModel(movie));
+        if(null == updatedMovie) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(movieMapper.toDto(updatedMovie));
     }
 
     @Override
@@ -53,9 +55,11 @@ public class MoviesApiImpl implements MoviesApi {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<MovieDto> get(@PathVariable int id) {
-        return ResponseEntity.ok(
-                movieMapper.toDto(moviesService
-                        .get(id)));
+        var movie = moviesService.get(id);
+        if(null == movie) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(movieMapper.toDto(movie));
     }
 
     @Override

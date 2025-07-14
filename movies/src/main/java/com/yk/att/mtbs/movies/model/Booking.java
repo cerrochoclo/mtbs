@@ -14,14 +14,30 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Booking {
+public class Booking implements MtbsEntity<Booking> {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-        private int showtimeId;
-        private int seatNumber;
-        private int userId;
-        private float price;
+        private Integer id;
+        private Integer showtimeId;
+        private Integer seatNumber;
+        private Integer userId;
+        private Float price;
+        private boolean isDeleted;
+
+        @Override
+        public Booking copy(boolean forceIsDeleted) {
+                return new Booking(this.id,
+                        this.showtimeId,
+                        this.seatNumber,
+                        this.userId,
+                        this.price,
+                        forceIsDeleted || this.isDeleted);
+        }
+
+        @Override
+        public boolean getIsDeleted() {
+                return this.isDeleted;
+        }
 }
 
 

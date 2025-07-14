@@ -1,9 +1,9 @@
 package com.yk.att.mtbs.movies.services;
 
 import com.yk.att.mtbs.movies.model.Movie;
+import com.yk.att.mtbs.movies.persistence.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.yk.att.mtbs.movies.persistence.MovieRepository;
 
 import java.util.List;
 
@@ -11,15 +11,17 @@ import java.util.List;
 public class MoviesServiceImpl implements MoviesService {
 
     private final MovieRepository movieRepository;
+    private final JpaHelper<Movie> jpaHelper;
 
     @Autowired
-    public MoviesServiceImpl(MovieRepository movieRepository) {
+    public MoviesServiceImpl(MovieRepository movieRepository, JpaHelper<Movie> jpaHelper) {
         this.movieRepository = movieRepository;
+        this.jpaHelper = jpaHelper;
     }
 
     @Override
     public Movie get(int id) {
-        return movieRepository.getReferenceById(id);
+        return jpaHelper.getNonDeleted(id, movieRepository);
     }
 
     @Override
@@ -29,17 +31,16 @@ public class MoviesServiceImpl implements MoviesService {
 
     @Override
     public Movie update(Movie movie) {
-        return movieRepository.save(movie);
+        return jpaHelper.saveNonDeleted(movie, movieRepository);
     }
 
     @Override
     public boolean delete(int id) {
-        movieRepository.deleteById(id);
-        return true;
+        return jpaHelper.softDelete(id, movieRepository);
     }
 
     @Override
     public List<Movie> getAll() {
-        return movieRepository.findAll();
+        return jpaHelper.findAllNonDeleted(movieRepository);
     }
 }

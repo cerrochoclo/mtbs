@@ -14,15 +14,32 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Movie {
+public class Movie implements MtbsEntity<Movie>{
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
+        private Integer id;
         private String title;
         private String genre;
-        private int duration;
+        private Integer duration;
         private String rating;
-        private int releaseYear;
+        private Integer releaseYear;
+        private boolean isDeleted;
+
+        @Override
+        public Movie copy(boolean forceIsDeleted) {
+                return new Movie(this.id,
+                        this.title,
+                        this.genre,
+                        this.duration,
+                        this.rating,
+                        this.releaseYear,
+                        forceIsDeleted || this.isDeleted);
+        }
+
+        @Override
+        public boolean getIsDeleted() {
+                return this.isDeleted;
+        }
 }
 
 

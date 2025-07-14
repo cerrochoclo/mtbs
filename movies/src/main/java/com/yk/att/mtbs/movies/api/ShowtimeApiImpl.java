@@ -34,9 +34,11 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<ShowtimeDto> get(@PathVariable int id) {
-        return ResponseEntity.ok(
-                showtimeMapper.toDto(showtimeService
-                        .get(id)));
+        var showtime = showtimeService.get(id);
+        if(null == showtime) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(showtimeMapper.toDto(showtime));
     }
 
     @Override
@@ -50,5 +52,26 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     public ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(@RequestParam int movieId, @RequestParam int theatreId) {
         return ResponseEntity.ok(showtimeService.fetchByMovieByTheatre(movieId, theatreId)
                 .stream().map(showtimeMapper::toDto).toList());
+    }
+
+    @Override
+    @PutMapping
+    public ResponseEntity<ShowtimeDto> update(@RequestBody ShowtimeDto showtime) {
+        var updatedShowtime = showtimeService.update(showtimeMapper.toModel(showtime));
+        if (null == updatedShowtime) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(showtimeMapper.toDto(updatedShowtime));
+    }
+
+    @Override
+    @DeleteMapping("{id}")
+    public ResponseEntity<ShowtimeDto> delete(@PathVariable int id) {
+        boolean isDeleted = showtimeService.delete(id);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();  // 204 No Content
+        } else {
+            return ResponseEntity.notFound().build();  // 404 Not Found
+        }
     }
 }
