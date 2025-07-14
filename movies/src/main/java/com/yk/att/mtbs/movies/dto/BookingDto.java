@@ -1,3 +1,5 @@
 package com.yk.att.mtbs.movies.dto;
 
-public record BookingDto(Integer id, Integer showtimeId, Integer seatNumber, Integer userId, Float price) {}
+import jakarta.validation.constraints.NotNull;
+
+public record BookingDto(@NotNull Integer id, @NotNull Integer showtimeId, @NotNull Integer seatNumber, @NotNull Integer userId, @NotNull Float price) {}

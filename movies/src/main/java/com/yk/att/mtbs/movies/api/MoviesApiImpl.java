@@ -2,6 +2,7 @@ package com.yk.att.mtbs.movies.api;
 
 import com.yk.att.mtbs.movies.dto.MovieDto;
 import com.yk.att.mtbs.movies.mappers.MovieMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class MoviesApiImpl implements MoviesApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<MovieDto> add(@RequestBody MovieDto movie) {
+    public ResponseEntity<MovieDto> add(@Valid@RequestBody MovieDto movie) {
         return ResponseEntity.ok(
                 movieMapper.toDto(moviesService
                                 .add(movieMapper.toModel(movie))));
@@ -33,7 +34,7 @@ public class MoviesApiImpl implements MoviesApi {
 
     @Override
     @PutMapping
-    public ResponseEntity<MovieDto> update(@RequestBody MovieDto movie) {
+    public ResponseEntity<MovieDto> update(@Valid @RequestBody MovieDto movie) {
         var updatedMovie = moviesService.update(movieMapper.toModel(movie));
         if(null == updatedMovie) {
             return ResponseEntity.notFound().build();

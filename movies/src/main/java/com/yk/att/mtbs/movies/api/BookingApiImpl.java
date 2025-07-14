@@ -2,6 +2,7 @@ package com.yk.att.mtbs.movies.api;
 
 import com.yk.att.mtbs.movies.dto.BookingDto;
 import com.yk.att.mtbs.movies.mappers.BookingMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class BookingApiImpl implements BookingApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<BookingDto> add(@RequestBody BookingDto booking) {
+    public ResponseEntity<BookingDto> add(@Valid @RequestBody BookingDto booking) {
         return ResponseEntity.ok(bookingMapper.toDto(bookingService.add(bookingMapper.toModel(booking))));
     }
 

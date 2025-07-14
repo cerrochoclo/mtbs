@@ -3,6 +3,7 @@ package com.yk.att.mtbs.movies.api;
 import com.yk.att.mtbs.movies.dto.ShowtimeDto;
 import com.yk.att.mtbs.movies.mappers.ShowtimeMapper;
 import com.yk.att.mtbs.movies.services.ValidationException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -29,7 +30,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<ShowtimeDto> add(@RequestBody ShowtimeDto showtime) {
+    public ResponseEntity<ShowtimeDto> add(@Valid @RequestBody ShowtimeDto showtime) {
         try {
             return ResponseEntity.ok(
                     showtimeMapper.toDto(showtimeService
@@ -42,7 +43,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<ShowtimeDto> get(@PathVariable int id) {
+    public ResponseEntity<ShowtimeDto> get(@Valid @PathVariable int id) {
         var showtime = showtimeService.get(id);
         if(null == showtime) {
             return ResponseEntity.notFound().build();
@@ -65,7 +66,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
 
     @Override
     @PutMapping
-    public ResponseEntity<ShowtimeDto> update(@RequestBody ShowtimeDto showtime) {
+    public ResponseEntity<ShowtimeDto> update(@Valid @RequestBody ShowtimeDto showtime) {
         try {
             var updatedShowtime = showtimeService.update(showtimeMapper.toModel(showtime));
             if (null == updatedShowtime) {
