@@ -8,9 +8,9 @@ public interface ShowtimeService {
 
     Showtime get(int id);
 
-    Showtime add(Showtime showtime);
+    Showtime add(Showtime showtime) throws ValidationException;
 
-    Showtime update(Showtime showtime);
+    Showtime update(Showtime showtime) throws ValidationException;
 
     List<Showtime> getAll();
 

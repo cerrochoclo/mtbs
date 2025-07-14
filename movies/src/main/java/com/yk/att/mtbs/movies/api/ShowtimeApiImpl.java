@@ -2,10 +2,14 @@ package com.yk.att.mtbs.movies.api;
 
 import com.yk.att.mtbs.movies.dto.ShowtimeDto;
 import com.yk.att.mtbs.movies.mappers.ShowtimeMapper;
+import com.yk.att.mtbs.movies.services.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.yk.att.mtbs.movies.services.ShowtimeService;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,9 +30,14 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     @Override
     @PostMapping
     public ResponseEntity<ShowtimeDto> add(@RequestBody ShowtimeDto showtime) {
-        return ResponseEntity.ok(
-                showtimeMapper.toDto(showtimeService
-                        .add(showtimeMapper.toModel(showtime))));
+        try {
+            return ResponseEntity.ok(
+                    showtimeMapper.toDto(showtimeService
+                            .add(showtimeMapper.toModel(showtime))));
+        }
+        catch(ValidationException valExc) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, valExc.getMessage());
+        }
     }
 
     @Override
@@ -57,11 +66,16 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     @Override
     @PutMapping
     public ResponseEntity<ShowtimeDto> update(@RequestBody ShowtimeDto showtime) {
-        var updatedShowtime = showtimeService.update(showtimeMapper.toModel(showtime));
-        if (null == updatedShowtime) {
-            return ResponseEntity.notFound().build();
+        try {
+            var updatedShowtime = showtimeService.update(showtimeMapper.toModel(showtime));
+            if (null == updatedShowtime) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(showtimeMapper.toDto(updatedShowtime));
         }
-        return ResponseEntity.ok(showtimeMapper.toDto(updatedShowtime));
+        catch(ValidationException valExc) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, valExc.getMessage());
+        }
     }
 
     @Override
