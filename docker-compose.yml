@@ -1,19 +1,31 @@
 version: '3.8'
 
 services:
-  postgres:
+  postgres-movies:
     image: postgres:15
-    container_name: postgres
+    container_name: postgres-movies
     restart: always
     environment:
-      POSTGRES_DB: mtbs
-      POSTGRES_USER: mtbsuser
-      POSTGRES_PASSWORD: mtbspass
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
       - ./db_init_cinema.sql:/docker-entrypoint-initdb.d/db_init_cinema.sql:ro
+    networks:
+      - mtbsnet
+
+  postgres-users:
+    image: postgres:15
+    container_name: postgres-users
+    restart: always
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db_init_users.sql:/docker-entrypoint-initdb.d/db_init_users.sql:ro
     networks:
       - mtbsnet
 
@@ -24,12 +36,12 @@ services:
     ports:
       - "8081:8080"
     depends_on:
-      - postgres
+      - postgres-movies
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mtbs
-      SPRING_DATASOURCE_USERNAME: mtbsuser
-      SPRING_DATASOURCE_PASSWORD: mtbspass
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-movies:5432/mtbs
+      SPRING_DATASOURCE_USERNAME: app_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
     networks:
       - mtbsnet
 
@@ -39,13 +51,15 @@ services:
     container_name: usermanagement-service
     ports:
       - "8082:8080"
+      - "5005:5005"
     depends_on:
-      - postgres
+      - postgres-users
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mtbs
-      SPRING_DATASOURCE_USERNAME: mtbsuser
-      SPRING_DATASOURCE_PASSWORD: mtbspass
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-users:5432/users
+      SPRING_DATASOURCE_USERNAME: app_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      JAVA_OPTS: -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=5005,suspend=y
     networks:
       - mtbsnet
 

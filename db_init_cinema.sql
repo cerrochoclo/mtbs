@@ -1,7 +1,6 @@
 
 CREATE DATABASE mtbs;
 \c mtbs
-CREATE ROLE app_user WITH LOGIN PASSWORD 'password';
 ALTER ROLE app_user CREATEDB CREATEROLE;
 GRANT ALL PRIVILEGES ON DATABASE mtbs TO app_user;
 
@@ -27,6 +26,7 @@ CREATE TABLE showtime
     theatre_id INT REFERENCES theatre (id) ON DELETE CASCADE,
     start_time TIMESTAMP,
     end_time   TIMESTAMP,
+    max_seats   INT,
     is_deleted   BOOLEAN DEFAULT FALSE,
 
     UNIQUE (movie_id, theatre_id, start_time)
@@ -39,7 +39,8 @@ CREATE TABLE booking
     seat_number INT,
     user_id     INT,
     price       NUMERIC(10, 2),
-    is_deleted   BOOLEAN DEFAULT FALSE
+    is_deleted   BOOLEAN DEFAULT FALSE,
+    UNIQUE(showtime_id, seat_number)
 );
 ALTER TABLE movie OWNER TO app_user;
 ALTER TABLE showtime OWNER TO app_user;
@@ -54,22 +55,22 @@ INSERT INTO theatre(id,name)
 VALUES (1,'Cinema City Glilot');
 INSERT INTO theatre(id,name)
 VALUES (2,'Rav Chen Dizengoff');
-INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, is_deleted)
-VALUES (1,1, 1, '2025-07-12 18:30:00', '2025-07-12 20:30:00', false);
-INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, is_deleted)
-VALUES (2,1, 1, '2025-07-12 21:00:00', '2025-07-12 23:00:00', false);
-INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, is_deleted)
-VALUES (3,1, 2, '2025-07-13 10:30:00', '2025-07-13 12:30:00', false);
-INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, is_deleted)
-VALUES (4,1, 2, '2025-07-13 13:00:00', '2025-07-13 15:00:00', false);
-INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, is_deleted)
-VALUES (5,2, 1, '2025-07-12 18:30:00', '2025-07-12 20:30:00', false);
-INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, is_deleted)
-VALUES (6,2, 1, '2025-07-14 21:59:00', '2025-07-14 23:59:00', false);
-INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, is_deleted)
-VALUES (7,2, 2, '2025-07-15 10:30:00', '2025-07-15 12:30:00', false);
-INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, is_deleted)
-VALUES (8,2, 2, '2025-07-12 13:00:00', '2025-07-12 15:00:00', false);
+INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, max_seats, is_deleted)
+VALUES (1,1, 1, '2025-07-12 18:30:00', '2025-07-12 20:30:00',100, false);
+INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, max_seats, is_deleted)
+VALUES (2,1, 1, '2025-07-12 21:00:00', '2025-07-12 23:00:00', 100,false);
+INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, max_seats, is_deleted)
+VALUES (3,1, 2, '2025-07-13 10:30:00', '2025-07-13 12:30:00', 100,false);
+INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, max_seats, is_deleted)
+VALUES (4,1, 2, '2025-07-13 13:00:00', '2025-07-13 15:00:00', 100,false);
+INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, max_seats, is_deleted)
+VALUES (5,2, 1, '2025-07-12 18:30:00', '2025-07-12 20:30:00', 100,false);
+INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, max_seats, is_deleted)
+VALUES (6,2, 1, '2025-07-14 21:59:00', '2025-07-14 23:59:00', 100,false);
+INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, max_seats, is_deleted)
+VALUES (7,2, 2, '2025-07-15 10:30:00', '2025-07-15 12:30:00', 100,false);
+INSERT INTO showtime(id,movie_id, theatre_id, start_time, end_time, max_seats, is_deleted)
+VALUES (8,2, 2, '2025-07-12 13:00:00', '2025-07-12 15:00:00', 100,false);
 
 SELECT setval(pg_get_serial_sequence('movie', 'id'), max(id)) FROM movie;
 SELECT setval(pg_get_serial_sequence('showtime', 'id'), max(id)) FROM showtime;
