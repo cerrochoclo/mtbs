@@ -24,6 +24,7 @@ public class Showtime implements MtbsEntity<Showtime> {
         private Integer theatreId;
         private OffsetDateTime startTime;
         private OffsetDateTime endTime;
+        private Integer maxSeats;
         private boolean isDeleted;
 
         @Override
@@ -33,6 +34,7 @@ public class Showtime implements MtbsEntity<Showtime> {
                         this.theatreId,
                         this.startTime,
                         this.endTime,
+                        this.maxSeats,
                         forceIsDeleted || this.isDeleted
                 );
         }
