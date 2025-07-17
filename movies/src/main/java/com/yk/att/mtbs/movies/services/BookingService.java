@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookingService {
 
-    Booking add(Booking booking);
+    Booking add(Booking booking) throws ValidationException;
 
     Booking get(int id);
 

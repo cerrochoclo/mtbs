@@ -2,11 +2,13 @@ package com.yk.att.mtbs.movies.api;
 
 import com.yk.att.mtbs.movies.dto.BookingDto;
 import com.yk.att.mtbs.movies.mappers.BookingMapper;
+import com.yk.att.mtbs.movies.services.ValidationException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,10 @@ public class BookingApiImpl implements BookingApi {
             var createdBookingDto = bookingMapper.toDto(createdBooking);
             logger.info("Booking created with ID: {}", createdBookingDto.id());
             return ResponseEntity.status(HttpStatus.CREATED).body(createdBookingDto);
+        }
+        catch(ValidationException valExc) {
+            logger.debug(valExc.getMessage());
+            return ResponseEntity.status(HttpStatusCode.valueOf(409)).build();
         }
         catch(Exception exc) {
             logger.error(exc.getMessage());
