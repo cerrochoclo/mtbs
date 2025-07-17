@@ -7,9 +7,9 @@ public interface UserService {
 
     User registerUser(User user) throws UserAlreadyExistsException;
 
-    ResponseEntity<?> login();
+    String login(String username, String password);
 
-    ResponseEntity<?> logout(String token);
+    boolean logout(String token);
 
 
 }

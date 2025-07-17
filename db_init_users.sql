@@ -17,9 +17,9 @@ CREATE TABLE mtbsuser
     role_id INT REFERENCES role (id)
 );
 INSERT INTO role(id,name)
-VALUES (1,'user');
+VALUES (1,'USER');
 INSERT INTO role(id,name)
-VALUES (2,'admin');
+VALUES (2,'ADMIN');
 INSERT INTO mtbsuser(username,name, email, password,role_id)
 VALUES ('moshe.cohen','Moshe Cohen', 'moshe.cohen@zmail.com', '123456',1);
 INSERT INTO mtbsuser(username,name, email, password,role_id)

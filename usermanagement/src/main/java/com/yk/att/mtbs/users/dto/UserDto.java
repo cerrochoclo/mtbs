@@ -20,7 +20,8 @@ public class UserDto {
     private String email;
     @NotNull
     private String password;
-    private RoleDto role;
+    @NotNull
+    private Integer roleId;
 
 
 }

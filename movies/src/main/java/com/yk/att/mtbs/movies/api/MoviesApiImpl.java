@@ -5,6 +5,7 @@ import com.yk.att.mtbs.movies.mappers.MovieMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.yk.att.mtbs.movies.services.MoviesService;
 
@@ -25,6 +26,7 @@ public class MoviesApiImpl implements MoviesApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<MovieDto> add(@Valid@RequestBody MovieDto movie) {
         return ResponseEntity.ok(
@@ -33,6 +35,7 @@ public class MoviesApiImpl implements MoviesApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ResponseEntity<MovieDto> update(@Valid @RequestBody MovieDto movie) {
         var updatedMovie = moviesService.update(movieMapper.toModel(movie));
@@ -43,6 +46,7 @@ public class MoviesApiImpl implements MoviesApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<MovieDto> delete(@PathVariable int id) {
         boolean isDeleted = moviesService.delete(id);
@@ -54,6 +58,7 @@ public class MoviesApiImpl implements MoviesApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<MovieDto> get(@PathVariable int id) {
         var movie = moviesService.get(id);
@@ -64,6 +69,7 @@ public class MoviesApiImpl implements MoviesApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<MovieDto>> getAll() {
         return ResponseEntity.ok(moviesService.getAll().stream().map(movieMapper::toDto).toList());

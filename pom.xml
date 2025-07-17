@@ -86,5 +86,6 @@
     <modules>
         <module>movies</module>
         <module>usermanagement</module>
+        <module>security</module>
     </modules>
 </project>

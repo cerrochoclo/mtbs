@@ -1,74 +1,72 @@
 package com.yk.att.mtbs.users.api;
 
+import com.yk.att.mtbs.users.dto.LoginRequest;
 import com.yk.att.mtbs.users.dto.UserDto;
+import com.yk.att.mtbs.users.dto.UserResponseDto;
 import com.yk.att.mtbs.users.mappers.RoleMapper;
 import com.yk.att.mtbs.users.mappers.UserMapper;
+import com.yk.att.mtbs.users.services.RoleService;
 import com.yk.att.mtbs.users.services.UserAlreadyExistsException;
 import com.yk.att.mtbs.users.services.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/users")
 public class UsersApiImpl implements UsersApi {
 
     private final UserService userService;
     private final UserMapper userMapper;
-    private final RoleMapper roleMapper;
+    private final RoleService roleService;
     private static final Logger logger = LoggerFactory.getLogger(UsersApiImpl.class);
 
     @Autowired
-    public UsersApiImpl(UserService userService, UserMapper userMapper, RoleMapper roleMapper) {
+    public UsersApiImpl(UserService userService, UserMapper userMapper, RoleMapper roleMapper, RoleService roleService) {
         this.userService = userService;
         this.userMapper = userMapper;
-        this.roleMapper = roleMapper;
+        this.roleService = roleService;
     }
 
     @Override
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@Valid @RequestBody UserDto user) {
+    public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserDto user) {
         UserDto newUser;
         logger.info("userDto: {}", user);
 
         try {
-            newUser = userMapper.map(userService.registerUser(userMapper.map(user)));
+            newUser = userMapper.map(userService.registerUser(userMapper.map(user, roleService)));
         } catch (UserAlreadyExistsException e) {
             throw new RuntimeException(e);
         }
-        return ResponseEntity.ok(newUser);
+        return ResponseEntity.ok(new UserResponseDto(newUser.getUsername(), newUser.getName(), newUser.getEmail()));
     }
-
 
     @Override
     @PostMapping("/login")
-    public ResponseEntity<?> login() {
-        return ResponseEntity.ok(null);
-//        try {
-//            return ResponseEntity.ok(null);
-//
-//        } catch (BadCredentialsException e) {
-//            ErrorResponse error = new ErrorResponseException(
-//                    HttpStatus.UNAUTHORIZED
-//            );
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-//
-//        } catch (DisabledException e) {
-//            ErrorResponse error = new ErrorResponseException(
-//                    HttpStatus.FORBIDDEN
-//            );
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
-//
-//        } catch (Exception e) {
-//            ErrorResponse error = new ErrorResponseException(
-//                    HttpStatus.INTERNAL_SERVER_ERROR
-//            );
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-//        }
+    public ResponseEntity<Map<String,String>> login(@Valid @RequestBody LoginRequest request) {
+        try {
+            return ResponseEntity.ok(Map.of(
+                    "token",
+                    userService.login(request.username,request.password)));
+        } catch (AuthenticationException e) {
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("Error","Invalid credentials"));
+        }
+        catch(Exception exc) {
+            logger.error(exc.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        }
     }
+
 
     @Override
     @PostMapping("/logout")

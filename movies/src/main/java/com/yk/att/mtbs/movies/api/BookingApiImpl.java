@@ -5,6 +5,7 @@ import com.yk.att.mtbs.movies.mappers.BookingMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.yk.att.mtbs.movies.services.BookingService;
 
@@ -25,12 +26,14 @@ public class BookingApiImpl implements BookingApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<BookingDto> add(@Valid @RequestBody BookingDto booking) {
         return ResponseEntity.ok(bookingMapper.toDto(bookingService.add(bookingMapper.toModel(booking))));
     }
 
     @Override
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("{id}")
     public ResponseEntity<BookingDto> get(@PathVariable int id) {
         var booking = bookingService.get(id);
@@ -41,6 +44,7 @@ public class BookingApiImpl implements BookingApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<BookingDto>> getAll() {
         return ResponseEntity.ok(bookingService.getAll().stream().map(bookingMapper::toDto).toList());

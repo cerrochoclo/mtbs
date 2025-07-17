@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.yk.att.mtbs.movies.services.ShowtimeService;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,6 +30,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ShowtimeDto> add(@Valid @RequestBody ShowtimeDto showtime) {
         try {
@@ -42,6 +44,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ShowtimeDto> get(@Valid @PathVariable int id) {
         var showtime = showtimeService.get(id);
@@ -52,12 +55,14 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<ShowtimeDto>> getAll() {
         return ResponseEntity.ok(showtimeService.getAll().stream().map(showtimeMapper::toDto).toList());
     }
 
     @Override
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/fetch")
     public ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(@RequestParam int movieId, @RequestParam int theatreId) {
         return ResponseEntity.ok(showtimeService.fetchByMovieByTheatre(movieId, theatreId)
@@ -65,6 +70,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ResponseEntity<ShowtimeDto> update(@Valid @RequestBody ShowtimeDto showtime) {
         try {
@@ -80,6 +86,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<ShowtimeDto> delete(@PathVariable int id) {
         boolean isDeleted = showtimeService.delete(id);
