@@ -20,7 +20,7 @@ public class Booking implements MtbsEntity<Booking> {
         private Integer id;
         private Integer showtimeId;
         private Integer seatNumber;
-        private Integer userId;
+        private String userName;
         private Float price;
         private boolean isDeleted;
 
@@ -29,7 +29,7 @@ public class Booking implements MtbsEntity<Booking> {
                 return new Booking(this.id,
                         this.showtimeId,
                         this.seatNumber,
-                        this.userId,
+                        this.userName,
                         this.price,
                         forceIsDeleted || this.isDeleted);
         }

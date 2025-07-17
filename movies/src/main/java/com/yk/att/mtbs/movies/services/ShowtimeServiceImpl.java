@@ -54,9 +54,10 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
-    public List<Showtime> fetchByMovieByTheatre(int movieId, int theatreId) {
-        return List.of();
+    public List<Showtime> getByMovieByTheatre(Integer movieId, Integer theatreId) {
+        return showtimeRepository.findByMovieAndTheatre(movieId, theatreId);
     }
+
 
     @Override
     public boolean delete(int id) {

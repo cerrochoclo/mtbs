@@ -13,7 +13,7 @@ public interface ShowtimeApi {
 
     ResponseEntity<List<ShowtimeDto>> getAll();
 
-    ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(int movieId, int theatreId);
+    ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(Integer movieId, Integer theatreId);
 
     ResponseEntity<ShowtimeDto> update(ShowtimeDto showtime);
 

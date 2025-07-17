@@ -3,6 +3,7 @@ package com.yk.att.mtbs.movies.services;
 import com.yk.att.mtbs.movies.model.Booking;
 import com.yk.att.mtbs.movies.model.Movie;
 import com.yk.att.mtbs.movies.model.MtbsEntity;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
@@ -31,9 +32,9 @@ public class JpaHelper<T extends MtbsEntity<T>> {
     }
 
     public T saveNonDeleted(T entity, JpaRepository<T, Integer> repository) {
-        T retrievedEntity = repository.findById(entity.getId()).orElseThrow();//TODO: handle exception of not found
+        T retrievedEntity = repository.findById(entity.getId()).orElseThrow();
         if(retrievedEntity.getIsDeleted()){
-            throw new RuntimeException();
+            throw new EntityNotFoundException();
         }
         return repository.save(entity);
     }

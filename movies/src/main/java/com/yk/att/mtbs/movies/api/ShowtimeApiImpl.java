@@ -4,6 +4,8 @@ import com.yk.att.mtbs.movies.dto.ShowtimeDto;
 import com.yk.att.mtbs.movies.mappers.ShowtimeMapper;
 import com.yk.att.mtbs.movies.services.ValidationException;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,6 +23,7 @@ public class ShowtimeApiImpl implements ShowtimeApi {
 
     private final ShowtimeService showtimeService;
     private final ShowtimeMapper showtimeMapper;
+    private static final Logger logger = LoggerFactory.getLogger(ShowtimeApiImpl.class);
 
 
     @Autowired
@@ -39,7 +42,12 @@ public class ShowtimeApiImpl implements ShowtimeApi {
                             .add(showtimeMapper.toModel(showtime))));
         }
         catch(ValidationException valExc) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, valExc.getMessage());
+            logger.debug(valExc.getMessage());
+            return ResponseEntity.status(HttpStatusCode.valueOf(409)).build();
+        }
+        catch(Exception exc) {
+            logger.error(exc.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -47,26 +55,44 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ShowtimeDto> get(@Valid @PathVariable int id) {
-        var showtime = showtimeService.get(id);
-        if(null == showtime) {
-            return ResponseEntity.notFound().build();
+        try {
+            var showtime = showtimeService.get(id);
+            if (null == showtime) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(showtimeMapper.toDto(showtime));
         }
-        return ResponseEntity.ok(showtimeMapper.toDto(showtime));
+        catch(Exception exc) {
+            logger.error(exc.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<ShowtimeDto>> getAll() {
-        return ResponseEntity.ok(showtimeService.getAll().stream().map(showtimeMapper::toDto).toList());
+        try {
+            return ResponseEntity.ok(showtimeService.getAll().stream().map(showtimeMapper::toDto).toList());
+        }
+        catch(Exception exc) {
+            logger.error(exc.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @Override
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/fetch")
-    public ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(@RequestParam int movieId, @RequestParam int theatreId) {
-        return ResponseEntity.ok(showtimeService.fetchByMovieByTheatre(movieId, theatreId)
-                .stream().map(showtimeMapper::toDto).toList());
+    public ResponseEntity<List<ShowtimeDto>> fetchByMovieByTheatre(@RequestParam(value="movieId", required = false) Integer movieId, @RequestParam(value="theatreId", required = false) Integer theatreId) {
+        try {
+            return ResponseEntity.ok(showtimeService.getByMovieByTheatre(movieId, theatreId)
+                    .stream().map(showtimeMapper::toDto).toList());
+        }
+        catch(Exception exc) {
+            logger.error(exc.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @Override
@@ -81,7 +107,12 @@ public class ShowtimeApiImpl implements ShowtimeApi {
             return ResponseEntity.ok(showtimeMapper.toDto(updatedShowtime));
         }
         catch(ValidationException valExc) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, valExc.getMessage());
+            logger.debug(valExc.getMessage());
+            return ResponseEntity.status(HttpStatusCode.valueOf(409)).build();
+        }
+        catch(Exception exc) {
+            logger.error(exc.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -89,11 +120,17 @@ public class ShowtimeApiImpl implements ShowtimeApi {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<ShowtimeDto> delete(@PathVariable int id) {
-        boolean isDeleted = showtimeService.delete(id);
-        if (isDeleted) {
-            return ResponseEntity.noContent().build();  // 204 No Content
-        } else {
-            return ResponseEntity.notFound().build();  // 404 Not Found
+        try {
+            boolean isDeleted = showtimeService.delete(id);
+            if (isDeleted) {
+                return ResponseEntity.noContent().build();  // 204 No Content
+            } else {
+                return ResponseEntity.notFound().build();  // 404 Not Found
+            }
+        }
+        catch(Exception exc) {
+            logger.error(exc.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
