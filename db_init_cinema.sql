@@ -37,7 +37,7 @@ CREATE TABLE booking
     id          SERIAL PRIMARY KEY,
     showtime_id INT REFERENCES showtime (id) ON DELETE CASCADE,
     seat_number INT,
-    user_id     INT,
+    user_name     VARCHAR(100),
     price       NUMERIC(10, 2),
     is_deleted   BOOLEAN DEFAULT FALSE,
     UNIQUE(showtime_id, seat_number)
